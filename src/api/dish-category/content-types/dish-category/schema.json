@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dish_categories",
+  "info": {
+    "singularName": "dish-category",
+    "pluralName": "dish-categories",
+    "displayName": "dishCategory"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "menus": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::menu.menu",
+      "inversedBy": "dish_categories"
+    }
+  }
+}

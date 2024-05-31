@@ -788,35 +788,34 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
-export interface ApiCheckoutCheckout extends Schema.CollectionType {
-  collectionName: 'checkouts';
+export interface ApiDishCategoryDishCategory extends Schema.CollectionType {
+  collectionName: 'dish_categories';
   info: {
-    singularName: 'checkout';
-    pluralName: 'checkouts';
-    displayName: 'checkout';
+    singularName: 'dish-category';
+    pluralName: 'dish-categories';
+    displayName: 'dishCategory';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    accId: Attribute.String & Attribute.Required & Attribute.Unique;
-    currency: Attribute.String & Attribute.Required & Attribute.Unique;
-    amount: Attribute.String & Attribute.Required & Attribute.Unique;
-    merchantTransactionId: Attribute.String &
-      Attribute.Required &
-      Attribute.Unique;
-    goods: Attribute.JSON & Attribute.Required;
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    menus: Attribute.Relation<
+      'api::dish-category.dish-category',
+      'manyToMany',
+      'api::menu.menu'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::checkout.checkout',
+      'api::dish-category.dish-category',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::checkout.checkout',
+      'api::dish-category.dish-category',
       'oneToOne',
       'admin::user'
     > &
@@ -824,33 +823,39 @@ export interface ApiCheckoutCheckout extends Schema.CollectionType {
   };
 }
 
-export interface ApiRestaurantRestaurant extends Schema.CollectionType {
-  collectionName: 'restaurants';
+export interface ApiMenuMenu extends Schema.CollectionType {
+  collectionName: 'menus';
   info: {
-    singularName: 'restaurant';
-    pluralName: 'restaurants';
-    displayName: 'Restaurant';
+    singularName: 'menu';
+    pluralName: 'menus';
+    displayName: 'menu';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String & Attribute.Required & Attribute.Unique;
-    description: Attribute.Blocks;
+    dishName: Attribute.String & Attribute.Required & Attribute.Unique;
+    description: Attribute.String & Attribute.Required & Attribute.Unique;
+    imageURL: Attribute.Media & Attribute.Required;
+    isVegetarian: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    isSpicy: Attribute.Boolean & Attribute.Required;
+    preparationTime: Attribute.Integer & Attribute.Required & Attribute.Unique;
+    calories: Attribute.JSON & Attribute.Required;
+    ingredients: Attribute.String & Attribute.Required & Attribute.Unique;
+    dish_categories: Attribute.Relation<
+      'api::menu.menu',
+      'manyToMany',
+      'api::dish-category.dish-category'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::restaurant.restaurant',
-      'oneToOne',
-      'admin::user'
-    > &
+    createdBy: Attribute.Relation<'api::menu.menu', 'oneToOne', 'admin::user'> &
       Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::restaurant.restaurant',
-      'oneToOne',
-      'admin::user'
-    > &
+    updatedBy: Attribute.Relation<'api::menu.menu', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -873,8 +878,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
-      'api::checkout.checkout': ApiCheckoutCheckout;
-      'api::restaurant.restaurant': ApiRestaurantRestaurant;
+      'api::dish-category.dish-category': ApiDishCategoryDishCategory;
+      'api::menu.menu': ApiMenuMenu;
     }
   }
 }
