@@ -22,17 +22,6 @@
       "required": true,
       "unique": true
     },
-    "imageURL": {
-      "type": "media",
-      "multiple": false,
-      "required": true,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "isVegetarian": {
       "type": "boolean",
       "default": false,
@@ -61,6 +50,10 @@
       "relation": "manyToMany",
       "target": "api::dish-category.dish-category",
       "mappedBy": "menus"
+    },
+    "imageURL": {
+      "type": "string",
+      "required": true
     }
   }
 }

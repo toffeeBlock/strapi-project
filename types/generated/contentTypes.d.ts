@@ -837,7 +837,6 @@ export interface ApiMenuMenu extends Schema.CollectionType {
   attributes: {
     dishName: Attribute.String & Attribute.Required & Attribute.Unique;
     description: Attribute.String & Attribute.Required & Attribute.Unique;
-    imageURL: Attribute.Media & Attribute.Required;
     isVegetarian: Attribute.Boolean &
       Attribute.Required &
       Attribute.DefaultTo<false>;
@@ -850,6 +849,7 @@ export interface ApiMenuMenu extends Schema.CollectionType {
       'manyToMany',
       'api::dish-category.dish-category'
     >;
+    imageURL: Attribute.String & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
